@@ -1,8 +1,8 @@
 # TaskFlow
 
-仕事を、ひとつずつ前へ。タスクの進捗・優先度・期限をまとめて把握できる、Rails製のタスク管理Webアプリです。
+タスクの進捗・優先度・期限をまとめて把握できる、Rails製のタスク管理Webアプリです。
 
-**ログイン不要。初回アクセスで自分専用のデモが作られ、すぐに操作できます。** 新卒エンジニアのポートフォリオとして、CRUDに加え、状態管理、データの所有範囲、DB制約、テスト、本番構成まで実装しました。
+**ログイン不要。初回アクセスで自分専用のデモが作られ、すぐに操作できます。**
 
 - **公開URL：Renderへのデプロイ後、ここに `https://実際のサービス名.onrender.com` を記載**（現時点では未公開）
 - ソース：[Takafumi122/taskflow-rails](https://github.com/Takafumi122/taskflow-rails)
@@ -195,18 +195,6 @@ Dockerの場合：`docker compose exec web bin/rails test`。
 ### 外部PostgreSQLを使う場合
 
 Blueprintの `databases` を削除し、`DATABASE_URL` の `fromDatabase` を `sync: false` に変更してRenderの環境変数に接続URLを設定します。同一DBを使う環境間で `SECRET_KEY_BASE` を一致させ、漏えいさせないでください。秘密情報をGitにコミットする必要はありません。本アプリの本番起動には `RAILS_MASTER_KEY` は不要です。
-
-### 無料プランの注意
-
-2026-10-30に[Render公式の無料プラン資料](https://render.com/docs/free)を確認しました。提供条件は変更される可能性があるため、公開前にも確認してください。
-
-- Webは15分アクセスがないと停止し、次のアクセスでの再起動に約1分かかる場合があります。
-- 無料Webのローカルファイルは再起動・再デプロイ等で失われます。本番SQLiteは使用せず、PostgreSQLにデータを保存します。
-- 無料PostgreSQLは作成から30日で期限切れになります。就職活動期間を通じて公開するには、期限前に外部DBか有料DBへの移行が必要です。
-- 無料インスタンス時間はワークスペース全体で月750時間。帯域・ビルド時間にも利用制限があり、超過時は停止や追加課金の対象になり得ます。ダッシュボードと支出設定を確認してください。
-- 有料への変更やCron追加は別途費用が必要です。このBlueprintは無料Webと無料DBだけを定義します。
-
-参考：[Rails 8をRenderに公開](https://render.com/docs/deploy-rails-8)、[Blueprint仕様](https://render.com/docs/blueprint-spec)。
 
 ## 制約と今後の改善
 
