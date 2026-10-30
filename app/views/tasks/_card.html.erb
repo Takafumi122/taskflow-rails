@@ -1,0 +1,23 @@
+<article class="task-card" id="<%= dom_id(task) %>">
+  <div class="card-top">
+    <span class="priority <%= task.priority %>"><i></i>優先度：<%= priority_label(task.priority) %></span>
+    <%= link_to "↗", task_path(task), class: "card-open", aria: { label: "#{task.title}の詳細" } %>
+  </div>
+  <h4><%= link_to task.title, task_path(task) %></h4>
+  <p class="card-description"><%= truncate(task.description.presence || "説明はまだありません。", length: 85) %></p>
+  <div class="card-meta">
+    <span class="due <%= "late" if task.overdue? %>">
+      ◷ <%= task.due_date ? l(task.due_date, format: :short) : "期限なし" %><%= " · 期限超過" if task.overdue? %>
+    </span>
+    <span class="task-id">#<%= task.id.to_s.rjust(3, "0") %></span>
+  </div>
+  <%= form_with url: transition_task_path(task), method: :patch, class: "status-form", data: { controller: "filter" } do |f| %>
+    <% @filters.each do |key, value| %>
+      <%= hidden_field_tag key, value, id: nil %>
+    <% end %>
+    <%= f.select :status, Task::STATUSES.map { |value, label| [label, value] },
+      { selected: task.status },
+      { id: "#{dom_id(task)}_status", aria: { label: "#{task.title}のステータス" }, data: { action: "change->filter#submit" } } %>
+    <%= f.submit "変更", class: "status-submit" %>
+  <% end %>
+</article>

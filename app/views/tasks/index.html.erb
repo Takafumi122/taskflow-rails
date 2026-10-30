@@ -1,0 +1,3 @@
+<div class="page-heading"><div><div class="eyebrow">YOUR WORK, IN FOCUS</div><h1>プロジェクトボード<span class="heading-dot">.</span></h1><p>やることを整理して、次の一歩に集中しよう。</p></div><%= link_to "+ タスクを作成", new_task_path, class: "button primary" %></div>
+<div class="demo-banner"><span class="demo-icon">✳</span><div><strong>あなただけのデモワークスペース</strong><p>ログイン不要で自由にお試しください。データは他の訪問者と共有されず、7日後に期限切れになります。</p></div><%= button_to "↺ Reset Demo", reset_demo_path, class: "button subtle", data: { turbo_confirm: "あなたのタスクを削除してサンプルに戻しますか？" } %></div>
+<%= render "workspace" %>

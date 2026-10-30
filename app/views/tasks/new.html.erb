@@ -1,0 +1,7 @@
+<%= link_to "← ボードに戻る", root_path, class: "back-link" %>
+<section class="form-panel">
+  <div class="eyebrow">MAKE IT HAPPEN</div>
+  <h1>新しいタスク</h1>
+  <p class="muted">次の一歩を、ここから。</p>
+  <%= render "form", task: @task %>
+</section>

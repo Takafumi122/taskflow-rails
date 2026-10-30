@@ -1,0 +1,20 @@
+ja:
+  date:
+    formats:
+      short: "%m/%d"
+  time:
+    formats:
+      long: "%Y/%m/%d %H:%M"
+  activerecord:
+    attributes:
+      task:
+        title: タイトル
+        description: 説明
+        status: ステータス
+        priority: 優先度
+        due_date: 期限
+    errors:
+      messages:
+        blank: を入力してください
+        too_long: は%{count}文字以内で入力してください
+        inclusion: は許可された値を選択してください

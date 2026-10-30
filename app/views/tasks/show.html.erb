@@ -1,0 +1,6 @@
+<%= link_to "← ボードに戻る", root_path, class: "back-link" %>
+<article class="form-panel detail"><div class="eyebrow">TASK #<%= @task.id %></div><h1><%= @task.title %></h1>
+<div class="detail-badges"><span class="priority <%= @task.priority %>">優先度：<%= priority_label(@task.priority) %></span><span><i class="dot <%= @task.status %>"></i><%= status_label(@task.status) %></span><span class="<%= "late" if @task.overdue? %>">期限：<%= @task.due_date || "なし" %></span></div>
+<div class="description"><%= simple_format(@task.description.presence || "説明はまだありません。") %></div>
+<dl class="timestamps"><dt>作成日時</dt><dd><%= l(@task.created_at, format: :long) %></dd><dt>更新日時</dt><dd><%= l(@task.updated_at, format: :long) %></dd></dl>
+<div class="form-actions"><%= button_to "タスクを削除", task_path(@task), method: :delete, class: "button danger", data: { turbo_confirm: "このタスクを削除しますか？" } %><%= link_to "タスクを編集", edit_task_path(@task), class: "button primary" %></div></article>

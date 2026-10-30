@@ -1,0 +1,28 @@
+<div id="workspace">
+<section class="summary" aria-label="タスクのサマリー">
+  <div class="stat"><span>総タスク数 <span class="stat-icon">▤</span></span><strong><%= @total %><small>tasks</small></strong><span class="stat-caption">ワークスペース全体</span></div>
+  <% Task::STATUSES.each do |status, label| %><div class="stat"><span><i class="dot <%= status %>"></i><%= label %></span><strong><%= @counts.fetch(status, 0) %><small>tasks</small></strong><span class="stat-caption"><%= { "todo" => "これから取り組むこと", "in_progress" => "ただいま進行中", "done" => "積み重ねた成果" }[status] %></span></div><% end %>
+  <div class="stat completion"><span>完了率 <span class="stat-icon">↗</span></span><strong><%= @completion_rate %><small>%</small></strong><div class="progress" role="progressbar" aria-label="完了率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= @completion_rate %>"><span style="width:<%= @completion_rate %>%"></span></div></div>
+</section>
+<section class="board-section" aria-labelledby="board-title">
+  <div class="board-toolbar"><h2 id="board-title"><span>▦</span> ボード <small><%= @tasks.size %> タスク</small></h2><span class="board-hint">小さな進捗が、大きな成果に。</span></div>
+  <%= form_with url: root_path, method: :get, class: "filters", data: { controller: "filter" } do |f| %>
+    <span class="filter-label">☷ <span>絞り込み</span></span>
+    <%= f.select :status_filter, Task::STATUSES.map { |value, label| [label, value] }, { include_blank: "すべてのステータス", selected: @filters["status_filter"] }, { aria: { label: "ステータスで絞り込み" }, data: { action: "change->filter#submit" } } %>
+    <%= f.select :priority_filter, Task::PRIORITIES.map { |value, label| ["優先度：#{label}", value] }, { include_blank: "すべての優先度", selected: @filters["priority_filter"] }, { aria: { label: "優先度で絞り込み" }, data: { action: "change->filter#submit" } } %>
+    <label class="overdue-filter"><%= f.check_box :overdue, { checked: @filters["overdue"] == "1", data: { action: "change->filter#submit" } }, "1", "0" %> 期限超過のみ</label><%= f.submit "適用", class: "button tiny" %><%= link_to "クリア", root_path, class: "clear-filter" %>
+  <% end %>
+  <div class="kanban">
+    <% Task::STATUSES.each do |status, label| %>
+      <% tasks = @grouped_tasks.fetch(status, []) %>
+      <section class="column <%= status %>" aria-label="<%= label %>">
+        <div class="column-heading"><h3><i class="dot <%= status %>"></i><%= label %><span class="column-count"><%= tasks.size %></span></h3><span class="column-symbol" aria-hidden="true"><%= status == "done" ? "✓" : "···" %></span></div>
+        <div class="cards"><%= render partial: "card", collection: tasks, as: :task %>
+        <% if tasks.empty? %><div class="empty-state"><span>◇</span><strong>タスクはありません</strong><p>新しいタスクを追加するか、<br>フィルターを変更してください。</p></div><% end %></div>
+        <%= link_to "+ タスクを追加", new_task_path, class: "add-task" %>
+      </section>
+    <% end %>
+  </div>
+</section>
+<p class="board-footnote"><span class="live-dot"></span> 変更は自動で保存されます <span>ステータスはカード下部から変更できます</span></p>
+</div>

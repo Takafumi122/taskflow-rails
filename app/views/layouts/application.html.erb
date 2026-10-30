@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title><%= content_for(:title) || "TaskFlow — 仕事を、ひとつずつ前へ。" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="TaskFlowは、タスクの優先度と進捗をひと目で把握できるタスク管理アプリです。ログイン不要の独立したデモをお試しください。">
+    <%= favicon_link_tag "/icon.svg", type: "image/svg+xml" %>
+    <%= csrf_meta_tags %><%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header class="header"><div class="header-inner">
+      <%= link_to root_path, class: "brand" do %><span class="brand-mark">▥</span> TaskFlow<span class="brand-dot">.</span><% end %>
+      <span class="header-divider"></span><span class="workspace-label">Personal workspace</span>
+      <span class="demo-badge"><span></span> Live demo</span><span class="avatar" aria-hidden="true">TF</span>
+    </div></header>
+    <main class="container">
+      <div id="flash" aria-live="polite"><% if notice %><div class="flash"><%= notice %></div><% end %></div>
+      <%= yield %>
+    </main>
+    <footer class="footer"><span>TaskFlow <span class="muted">/</span> 仕事を、ひとつずつ前へ。</span><span>Built with Ruby on Rails & Hotwire</span></footer>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<%= form_with model: task, class: "task-form" do |f| %>
+  <% if task.errors.any? %>
+    <div class="validation-errors" role="alert">
+      <strong>入力内容を確認してください</strong>
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title, "タイトル（必須）" %>
+    <%= f.text_field :title, maxlength: 100, required: true, placeholder: "何に取り組みますか？", autofocus: true %>
+    <small>100文字以内で入力してください。</small>
+  </div>
+  <div class="field">
+    <%= f.label :description, "説明" %>
+    <%= f.text_area :description, rows: 5, maxlength: 5000, placeholder: "タスクの背景や、完了までに必要なことを記入…" %>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <%= f.label :status, "ステータス" %>
+      <%= f.select :status, Task::STATUSES.map { |value, label| [label, value] } %>
+    </div>
+    <div class="field">
+      <%= f.label :priority, "優先度" %>
+      <%= f.select :priority, Task::PRIORITIES.map { |value, label| [label, value] } %>
+    </div>
+    <div class="field">
+      <%= f.label :due_date, "期限" %>
+      <%= f.date_field :due_date %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= link_to "キャンセル", task.persisted? ? task_path(task) : root_path, class: "button" %>
+    <%= f.submit task.persisted? ? "変更を保存" : "タスクを作成", class: "button primary" %>
+  </div>
+<% end %>
